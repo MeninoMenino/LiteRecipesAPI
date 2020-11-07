@@ -37,7 +37,7 @@ exports.getUser = async (req, res, next) => {
 
     //Resposta da requisição
     const response = {
-      id: user.insertId,
+      id: user.idUser,
       name: user.name,
       email: user.email,
       request: {
@@ -66,14 +66,14 @@ exports.postUser = async (req, res, next) => {
     //Resposta da requisição
     const response = {
       user: {
-        id: result.idUser,
+        id: result.insertId,
         name: result.name,
         email: result.email,
       },
       request: {
         type: "GET",
         description: "Return this user",
-        url: "http://localhost:3000/users/" + result.idUser,
+        url: "http://localhost:3000/users/" + result.insertId,
       },
     };
 
@@ -88,8 +88,9 @@ exports.patchUser = async (req, res, next) => {
   try {
     const query = `UPDATE user
                       SET name = ?,
-                          email = ?`;
-    const result = await mysql.execute(query, [req.body.name, req.body.email]);
+                          email = ?
+                    WHERE idUser = ?`;
+    const result = await mysql.execute(query, [req.body.name, req.body.email, req.params.idUser]);
 
     //Resposta da requisição
     const response = {
