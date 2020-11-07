@@ -37,7 +37,7 @@ exports.getUser = async (req, res, next) => {
 
     //Resposta da requisição
     const response = {
-      id: user.id,
+      id: user.insertId,
       name: user.name,
       email: user.email,
       request: {
